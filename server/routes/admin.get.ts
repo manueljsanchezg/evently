@@ -20,11 +20,11 @@ export default defineEventHandler(async (event) => {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Panel de preventa — Evently</title>
     <style>
-      :root{--navy:#071932;--navylight:#0f294d;--cream:#fef9e7;--creamsoft:#fffdf7;--gold:#d4af37}
+      :root{--navy:#071932;--navylight:#071932;--cream:#FFFCBA;--creamsoft:#FFFCBA;--gold:#FFFCBA}
       *{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--navy);font-family:Arial,sans-serif}
       header{height:80px;background:var(--navy);color:var(--cream);display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100vw - 1120px)/2));box-shadow:0 4px 14px #07193233}
       .brand{font-family:Georgia,serif;font-size:28px;font-weight:bold}.brand span{color:var(--gold);font-size:12px;margin-left:8px}
-      main{max-width:1120px;margin:48px auto;padding:0 24px}.card{background:var(--creamsoft);border:1px solid #d4af3759;border-radius:18px;padding:28px;box-shadow:0 8px 30px #07193212}
+      main{max-width:1120px;margin:48px auto;padding:0 24px}.card{background:var(--creamsoft);border:1px solid #FFFCBA59;border-radius:18px;padding:28px;box-shadow:0 8px 30px #07193212}
       h1{font-family:Georgia,serif;font-size:36px;margin:0 0 8px}.subtitle{color:#07193299;margin:0 0 28px}
       .login{max-width:430px;margin:80px auto}.field{display:grid;gap:8px;margin-bottom:16px}.field label{font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:.08em}
       input{width:100%;border:1px solid #07193233;border-radius:12px;background:white;padding:12px 14px;font-size:15px}button{border:0;border-radius:999px;background:var(--gold);color:var(--navy);font-weight:bold;padding:12px 18px;cursor:pointer}

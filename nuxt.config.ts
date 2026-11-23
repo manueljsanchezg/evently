@@ -20,11 +20,11 @@ export default defineNuxtConfig({
                 extend: {
                   colors: {
                     navy: '#071932',
-                    navyLight: '#0f294d',
-                    cream: '#FEF9E7',
-                    creamSoft: '#FFFDF7',
-                    gold: '#D4AF37',
-                    goldDark: '#B89225'
+                    navyLight: '#071932',
+                    cream: '#FFFCBA',
+                    creamSoft: '#FFFCBA',
+                    gold: '#FFFCBA',
+                    goldDark: '#FFFCBA'
                   },
                   fontFamily: {
                     serif: ['"Playfair Display"', 'serif'],

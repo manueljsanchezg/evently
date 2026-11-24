@@ -296,15 +296,206 @@
     </section>
 
     <footer class="bg-navy text-cream/80 py-10 px-4 border-t border-gold/20 mt-16">
-      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-        <div class="flex items-center gap-2.5">
-          <span class="font-serif text-xl font-bold text-cream">evently</span>
-          <span class="text-gold">·</span>
-          <span class="text-xs uppercase tracking-widest text-gold">Conecta · Reserva · Celebra</span>
+      <div class="max-w-7xl mx-auto flex flex-col gap-6 text-sm">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-2.5">
+            <span class="font-serif text-xl font-bold text-cream">evently</span>
+            <span class="text-gold">·</span>
+            <span class="text-xs uppercase tracking-widest text-gold">Conecta · Reserva · Celebra</span>
+          </div>
+          <nav aria-label="Información legal" class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+            <button type="button" class="hover:text-gold underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold rounded" @click="openLegalModal('aviso')">
+              Aviso Legal
+            </button>
+            <button type="button" class="hover:text-gold underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold rounded" @click="openLegalModal('privacidad')">
+              Política de Privacidad
+            </button>
+            <button type="button" class="hover:text-gold underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold rounded" @click="openLegalModal('cookies')">
+              Política de Cookies
+            </button>
+            <button type="button" class="font-semibold text-gold hover:text-cream underline underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold rounded" @click="openCookiePreferences">
+              Personalizar Cookies
+            </button>
+          </nav>
         </div>
-        <p class="text-xs text-cream/60">Proyecto académico · Prototipo funcional de campaña de preventa.</p>
+        <p class="text-xs text-cream/60 text-center sm:text-right">Proyecto académico · Prototipo funcional de campaña de preventa.</p>
       </div>
     </footer>
+
+    <div v-if="legalModalOpen" class="fixed inset-0 z-[60] bg-navy/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6" role="dialog" aria-modal="true" :aria-labelledby="legalModalTitleId" @click.self="closeLegalModal">
+      <article class="bg-creamSoft text-navy rounded-2xl max-w-4xl w-full shadow-2xl relative max-h-[92vh] overflow-y-auto border border-gold/50">
+        <div class="sticky top-0 z-10 bg-navy text-cream px-5 sm:px-8 py-5 flex items-start justify-between gap-4 border-b border-gold/30">
+          <div>
+            <span class="text-gold text-xs font-bold uppercase tracking-widest">Evently · Información legal</span>
+            <h2 :id="legalModalTitleId" class="font-serif text-2xl sm:text-3xl font-bold mt-1">{{ legalTitle }}</h2>
+          </div>
+          <button type="button" class="shrink-0 w-9 h-9 rounded-full bg-white/10 hover:bg-gold hover:text-navy flex items-center justify-center font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold" :aria-label="`Cerrar ${legalTitle}`" @click="closeLegalModal">✕</button>
+        </div>
+
+        <div class="px-5 sm:px-8 py-7 sm:py-9 text-[15px] leading-7 legal-content">
+          <template v-if="legalSection === 'aviso'">
+            <p class="mb-6">Este Aviso Legal regula el acceso y uso del sitio web <a :href="siteUrl" target="_blank" rel="noopener noreferrer" class="font-semibold underline">{{ siteUrl }}</a>, propiedad de Evently.</p>
+
+            <section class="legal-section">
+              <h3>1. Identificación y titularidad</h3>
+              <dl>
+                <div><dt>Nombre comercial / titular</dt><dd>Evently</dd></div>
+                <div><dt>Domicilio social</dt><dd>Calle Américo Vespucio, 27, 41092 Sevilla, España</dd></div>
+                <div><dt>Correo electrónico</dt><dd><a :href="`mailto:${contactEmail}`">{{ contactEmail }}</a></dd></div>
+                <div><dt>Actividad</dt><dd>Plataforma marketplace digital para conectar usuarios con proveedores reales de catering y cóctel, fotografía y vídeo, floristería y decoración, y música y DJ en Sevilla y Andalucía.</dd></div>
+              </dl>
+              <p>Esta información se ofrece de conformidad con el artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de Información y de Comercio Electrónico (LSSI-CE).</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>2. Objeto y condiciones de uso</h3>
+              <p>El sitio facilita información sobre servicios de proveedores de eventos y permite consultar, comparar y gestionar una selección de proveedores. Evently actúa como plataforma de intermediación; las reservas, prestaciones y relaciones contractuales pueden realizarse directamente con el proveedor correspondiente.</p>
+              <p>El usuario se compromete a utilizar el sitio de forma lícita, diligente y respetuosa, sin vulnerar derechos de terceros ni realizar actividades que dañen, inhabiliten o sobrecarguen los sistemas de Evently.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>3. Propiedad intelectual e industrial</h3>
+              <p>Los textos, diseños, marcas, logotipos, interfaces, fotografías, estructura y demás contenidos del sitio están protegidos por la legislación española e internacional sobre propiedad intelectual e industrial. El uso no autorizado de cualquiera de estos elementos puede dar lugar a las responsabilidades legalmente establecidas.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>4. Responsabilidad y enlaces externos</h3>
+              <p>Evently adopta medidas razonables para mantener actualizada la información, pero no garantiza su exactitud absoluta ni la disponibilidad continua del sitio. Los enlaces a proveedores, redes sociales y otros sitios externos se ofrecen a modo informativo; Evently no controla ni asume responsabilidad por sus contenidos, políticas o prácticas.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>5. Legislación y jurisdicción</h3>
+              <p>Las presentes condiciones se rigen por la legislación española. Para cualquier controversia derivada del uso del sitio, las partes se someterán a los juzgados y tribunales de Sevilla, salvo que una norma imperativa establezca otra jurisdicción.</p>
+            </section>
+          </template>
+
+          <template v-else-if="legalSection === 'privacidad'">
+            <p class="mb-6">Evently informa a los usuarios sobre el tratamiento de sus datos personales conforme al Reglamento (UE) 2016/679 (RGPD) y la Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales (LOPDGDD).</p>
+
+            <section class="legal-section">
+              <h3>1. Responsable del tratamiento</h3>
+              <dl>
+                <div><dt>Responsable</dt><dd>Evently</dd></div>
+                <div><dt>Domicilio</dt><dd>Calle Américo Vespucio, 27, 41092 Sevilla, España</dd></div>
+                <div><dt>Contacto</dt><dd><a :href="`mailto:${contactEmail}`">{{ contactEmail }}</a></dd></div>
+              </dl>
+            </section>
+
+            <section class="legal-section">
+              <h3>2. Datos y finalidades</h3>
+              <p>Los datos que el usuario facilite voluntariamente podrán tratarse para estas finalidades:</p>
+              <ul>
+                <li>Gestionar el registro en la lista de preventa y notificar el acceso anticipado.</li>
+                <li>Gestionar solicitudes de contacto o información enviadas a través de la web.</li>
+                <li>Facilitar la conexión entre usuarios y proveedores de catering, fotografía y vídeo, floristería y decoración, o música y DJ.</li>
+                <li>Enviar comunicaciones comerciales relacionadas con Evently, únicamente cuando exista consentimiento previo.</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h3>3. Legitimación</h3>
+              <p>La base jurídica es el consentimiento expreso del interesado otorgado al marcar las casillas de aceptación habilitadas en los formularios de la web y al solicitar expresamente un servicio o información. Si el tratamiento fuera necesario para ejecutar una solicitud o obligación legal, se aplicará la legitimación correspondiente.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>4. Destinatarios y comunicaciones</h3>
+              <p>No se cederán datos personales a terceros salvo obligación legal o cuando sea imprescindible para prestar el servicio solicitado, por ejemplo, para compartir los datos mínimos necesarios con un proveedor elegido por el usuario. Los encargados de tratamiento seleccionados deberán garantizar medidas adecuadas de protección.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>5. Conservación</h3>
+              <p>Los datos se conservarán mientras exista la relación o solicitud, durante el tiempo necesario para cumplir las finalidades indicadas y los plazos legales aplicables. Los datos de comunicaciones comerciales se conservarán hasta que el usuario retire su consentimiento o solicite su supresión.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>6. Derechos</h3>
+              <p>El usuario puede solicitar el acceso, rectificación, supresión, limitación del tratamiento, portabilidad y oposición a sus datos mediante solicitud escrita al domicilio postal o al correo <a :href="`mailto:${contactEmail}`">{{ contactEmail }}</a>, indicando el derecho que desea ejercer y aportando una identificación suficiente.</p>
+              <p>También puede retirar el consentimiento en cualquier momento, sin que ello afecte a la licitud del tratamiento realizado previamente. Si considera vulnerados sus derechos, puede presentar una reclamación ante la Agencia Española de Protección de Datos (AEPD), C. Jorge Juan, 6, 28001 Madrid, <a href="https://www.aepd.es" target="_blank" rel="noopener noreferrer">www.aepd.es</a>.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>7. Seguridad</h3>
+              <p>Evently aplica medidas técnicas y organizativas razonables para evitar la pérdida, uso indebido, acceso no autorizado o alteración de los datos personales. Ningún sistema ofrece seguridad absoluta, por lo que el usuario debe utilizar credenciales seguras y comunicar cualquier incidente sospechoso.</p>
+            </section>
+          </template>
+
+          <template v-else>
+            <p class="mb-6">Esta Política explica qué son las cookies y cómo se utilizan en <a :href="siteUrl" target="_blank" rel="noopener noreferrer" class="font-semibold underline">{{ siteUrl }}</a>. Puedes cambiar tus preferencias en cualquier momento desde «Personalizar Cookies» en el pie de página.</p>
+
+            <section class="legal-section">
+              <h3>1. Qué son las cookies</h3>
+              <p>Las cookies son pequeños archivos que se almacenan en el dispositivo del usuario para recordar preferencias, habilitar funciones o recopilar información técnica y estadística sobre el uso de un sitio web.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>2. Tipos utilizados</h3>
+              <ul>
+                <li><strong>Cookies técnicas necesarias:</strong> permiten navegar, recordar decisiones esenciales y utilizar funciones básicas. No requieren consentimiento cuando son estrictamente necesarias.</li>
+                <li><strong>Cookies de análisis o estadística:</strong> ayudan a conocer de forma agregada cómo se utiliza Evently y a mejorar la experiencia. Solo se activarán si el usuario las acepta.</li>
+                <li><strong>Enlaces y servicios externos:</strong> al abrir enlaces a Instagram o a sitios de proveedores, esos terceros pueden instalar sus propias cookies conforme a sus políticas. Evently no controla dichas cookies.</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h3>3. Cómo configurar las preferencias</h3>
+              <p>Desde «Personalizar Cookies» puedes aceptar todas las categorías, rechazar las no esenciales o guardar una selección personalizada. La opción «Guardar preferencias» queda disponible para guardar tu decisión en este dispositivo.</p>
+            </section>
+
+            <section class="legal-section">
+              <h3>4. Gestión desde el navegador</h3>
+              <p>También puedes deshabilitar o eliminar cookies desde el navegador. La configuración puede variar por versión:</p>
+              <ul>
+                <li><strong>Google Chrome:</strong> Configuración → Privacidad y seguridad → Cookies y otros datos de sitios.</li>
+                <li><strong>Safari:</strong> Preferencias/Ajustes → Privacidad → Gestionar datos de sitios web.</li>
+                <li><strong>Mozilla Firefox:</strong> Ajustes → Privacidad y seguridad → Cookies y datos del sitio.</li>
+                <li><strong>Microsoft Edge:</strong> Configuración → Cookies y permisos del sitio → Gestionar y eliminar cookies y datos del sitio.</li>
+              </ul>
+            </section>
+
+            <section class="legal-section">
+              <h3>5. Retirada del consentimiento</h3>
+              <p>La retirada o modificación posterior no afecta a la licitud del tratamiento basado en el consentimiento previo a su retirada. Puedes borrar también las cookies almacenadas desde tu navegador.</p>
+            </section>
+
+            <button type="button" class="mt-2 w-full sm:w-auto bg-navy hover:bg-navyLight text-cream font-bold px-6 py-3 rounded-xl transition border border-gold/30" @click="openCookiePreferences">
+              Personalizar Cookies
+            </button>
+          </template>
+        </div>
+      </article>
+    </div>
+
+    <div v-if="cookiePreferencesOpen" class="fixed inset-0 z-[70] bg-navy/85 backdrop-blur-sm flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="cookie-preferences-title" @click.self="closeCookiePreferences">
+      <div class="bg-creamSoft text-navy rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative border border-gold/50 max-h-[92vh] overflow-y-auto">
+        <button type="button" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-navy/10 hover:bg-navy hover:text-cream flex items-center justify-center font-bold" aria-label="Cerrar preferencias de cookies" @click="closeCookiePreferences">✕</button>
+        <span class="text-goldDark text-xs font-bold uppercase tracking-widest">Centro de preferencias</span>
+        <h2 id="cookie-preferences-title" class="font-serif text-3xl font-bold mt-1 mb-3 pr-10">Personalizar Cookies</h2>
+        <p class="text-sm text-navy/75 mb-6">Elige qué categorías no esenciales quieres permitir. Las cookies técnicas necesarias siempre permanecen activas.</p>
+
+        <div class="space-y-3 mb-6">
+          <div class="flex items-center justify-between gap-4 bg-cream border border-navy/10 rounded-xl p-4">
+            <div>
+              <h3 class="font-bold text-sm">Técnicas necesarias</h3>
+              <p class="text-xs text-navy/65 mt-1">Funcionamiento básico y seguridad.</p>
+            </div>
+            <span class="shrink-0 text-xs font-bold bg-navy text-cream px-3 py-1.5 rounded-full">Siempre activas</span>
+          </div>
+          <label class="flex items-center justify-between gap-4 bg-cream border border-navy/10 rounded-xl p-4 cursor-pointer">
+            <span>
+              <span class="font-bold text-sm block">Análisis y estadísticas</span>
+              <span class="text-xs text-navy/65 mt-1 block">Medición agregada para mejorar la web.</span>
+            </span>
+            <input v-model="analyticsCookies" type="checkbox" class="w-5 h-5 accent-navy shrink-0" aria-label="Permitir cookies de análisis">
+          </label>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <button type="button" class="bg-navy text-cream font-bold py-3 rounded-xl hover:bg-navyLight transition" @click="acceptAllCookies">Aceptar todas</button>
+          <button type="button" class="border border-navy/20 text-navy font-bold py-3 rounded-xl hover:bg-navy/5 transition" @click="rejectOptionalCookies">Rechazar no esenciales</button>
+          <button type="button" class="sm:col-span-2 bg-gold text-navy font-bold py-3 rounded-xl hover:bg-goldDark transition" @click="saveCookiePreferences">Guardar preferencias</button>
+        </div>
+      </div>
+    </div>
 
     <div v-if="detailModalOpen" class="fixed inset-0 z-50 bg-navy/75 backdrop-blur-sm flex items-center justify-center p-4" @click.self="closeDetailModal">
       <div class="bg-creamSoft text-navy rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
@@ -441,6 +632,21 @@ const preventaEvent = ref('Cena de Navidad / Fin de año')
 const toastMessage = ref('')
 let toastTimer: ReturnType<typeof setTimeout> | undefined
 
+const siteUrl = 'https://evently-psi-ten.vercel.app'
+const contactEmail = 'hola@evently.es'
+type LegalSection = 'aviso' | 'privacidad' | 'cookies'
+const legalModalOpen = ref(false)
+const legalSection = ref<LegalSection>('aviso')
+const cookiePreferencesOpen = ref(false)
+const analyticsCookies = ref(false)
+
+const legalModalTitleId = 'evently-legal-title'
+const legalTitle = computed(() => {
+  if (legalSection.value === 'aviso') return 'Aviso Legal'
+  if (legalSection.value === 'privacidad') return 'Política de Privacidad'
+  return 'Política de Cookies'
+})
+
 const providers: Provider[] = [
   { id: 1, name: 'ALDA & TERRY CATERING', category: 'Catering', city: 'Sevilla', eventType: 'Boda', rating: '4.9', reviews: 48, pricingType: 'per_person', basePrice: 115, unitLabel: '€/persona', minUnits: 10, defaultUnits: 50, image: 'https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&w=800&q=80', summary: 'Alta gastronomía andaluza con técnicas contemporáneas y puesta en escena de diseño para bodas exclusivas y celebraciones corporativas.', includes: ['Alta cocina andaluza', 'Menú personalizado', 'Puesta en escena de diseño', 'Servicio adaptado al evento'], cancellation: 'Consultar condiciones con el proveedor', location: 'Av. Manuel Siurot, 52, Sevilla', website: 'https://aldayterrycatering.com/' },
   { id: 2, name: 'Catering PROBOCA', category: 'Catering', city: 'Salteras', eventType: 'Boda', rating: '4.8', reviews: 36, pricingType: 'per_person', basePrice: 85, unitLabel: '€/persona', minUnits: 10, defaultUnits: 50, image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=800&q=80', summary: 'Organización gastronómica de bodas y grandes eventos con materia prima de proximidad, estaciones temáticas y servicio integral.', includes: ['Estaciones gastronómicas', 'Cóctel de bienvenida', 'Servicio integral de bodas', 'Producto de proximidad'], cancellation: 'Consultar condiciones con el proveedor', location: 'Pol. Ind. Los Llanos, Calle A, Nave 4, Salteras', website: 'https://probocacatering.com/' },
@@ -563,6 +769,49 @@ function closePreventaModal() {
   preventaModalOpen.value = false
 }
 
+function openLegalModal(section: LegalSection) {
+  legalSection.value = section
+  legalModalOpen.value = true
+  if (import.meta.client) document.body.style.overflow = 'hidden'
+}
+
+function closeLegalModal() {
+  legalModalOpen.value = false
+  if (!cookiePreferencesOpen.value && import.meta.client) document.body.style.overflow = ''
+}
+
+function openCookiePreferences() {
+  cookiePreferencesOpen.value = true
+  if (import.meta.client) document.body.style.overflow = 'hidden'
+}
+
+function closeCookiePreferences() {
+  cookiePreferencesOpen.value = false
+  if (!legalModalOpen.value && import.meta.client) document.body.style.overflow = ''
+}
+
+function acceptAllCookies() {
+  analyticsCookies.value = true
+  saveCookiePreferences()
+}
+
+function rejectOptionalCookies() {
+  analyticsCookies.value = false
+  saveCookiePreferences()
+}
+
+function saveCookiePreferences() {
+  if (import.meta.client) {
+    localStorage.setItem('evently_cookie_preferences', JSON.stringify({
+      necessary: true,
+      analytics: analyticsCookies.value,
+      updatedAt: new Date().toISOString()
+    }))
+  }
+  closeCookiePreferences()
+  showToast('Preferencias de cookies guardadas')
+}
+
 async function submitPreventa() {
   try {
     await $fetch('/api/preventa', {
@@ -589,6 +838,18 @@ function showToast(message: string) {
     toastMessage.value = ''
   }, 2800)
 }
+
+onMounted(() => {
+  if (!import.meta.client) return
+  const stored = localStorage.getItem('evently_cookie_preferences')
+  if (!stored) return
+  try {
+    const preferences = JSON.parse(stored) as { analytics?: boolean }
+    analyticsCookies.value = preferences.analytics === true
+  } catch {
+    localStorage.removeItem('evently_cookie_preferences')
+  }
+})
 </script>
 
 <style>
@@ -599,5 +860,57 @@ body {
 }
 .gold-border {
   border: 1px solid rgba(255, 252, 186, 0.35);
+}
+.legal-content .legal-section {
+  margin-bottom: 1.75rem;
+}
+.legal-content .legal-section h3 {
+  font-family: 'Playfair Display', serif;
+  color: #071932;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(7, 25, 50, 0.12);
+}
+.legal-content .legal-section p + p,
+.legal-content .legal-section p + ul,
+.legal-content .legal-section ul + p {
+  margin-top: 0.75rem;
+}
+.legal-content ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+}
+.legal-content a {
+  color: #071932;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.legal-content dl {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  background: #FFFCBA;
+  border: 1px solid rgba(7, 25, 50, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+.legal-content dl div {
+  display: grid;
+  grid-template-columns: minmax(0, 180px) 1fr;
+  gap: 0.75rem;
+}
+.legal-content dt {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+@media (max-width: 640px) {
+  .legal-content dl div {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 </style>
